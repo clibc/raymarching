@@ -1,2 +1,2 @@
 # Raymarching
-Making simple scene rendered with ray marching technique.
+Making simple scene rendered using ray marching.

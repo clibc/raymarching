@@ -4,4 +4,8 @@ FLAGS=-ggdb -Wall -Wextra -std=c99 -pedantic
 LIBS=-lglfw -lGLEW -lGL
 
 all:
-	$(CC) $(FILES) $(LIBS) -o a.out
+	$(CC) $(FLAGS) $(FILES) $(LIBS) -o a.out
+
+clean:
+	rm *.out
+	rm *.o

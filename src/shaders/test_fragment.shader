@@ -1,8 +1,8 @@
 #version 330 core
 
 #define MAX_RAY  100
-#define MAX_DIST 10000
-#define MIN_DIST 0
+#define MAX_DIST 10000.0
+#define MIN_DIST 0.0
 #define EPS      0.001
 
 in  vec2 tCoord;

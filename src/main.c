@@ -18,7 +18,7 @@ int main(void)
         exit(-1);
     }
 
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
 
     if(!window){
         ERROR("Failed to create window!");

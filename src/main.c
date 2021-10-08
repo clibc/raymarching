@@ -18,7 +18,7 @@ int main(void)
         exit(-1);
     }
 
-    window = glfwCreateWindow(640, 640, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "Raymarching", NULL, NULL);
 
     if(!window){
         ERROR("Failed to create window!");
@@ -49,8 +49,8 @@ int main(void)
     glBindBuffer(GL_ARRAY_BUFFER, vbo_texture);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), quad_tex_coords, GL_STATIC_DRAW);
     
-    GLuint quad_shader = create_shader("./src/shaders/test_vertex.shader",
-                                       "./src/shaders/test_fragment.shader");
+    GLuint quad_shader = create_shader("./src/shaders/vertex.shader",
+                                       "./src/shaders/fragment.shader");
 
     glUseProgram(quad_shader);
     

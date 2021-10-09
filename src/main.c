@@ -7,7 +7,8 @@
 #include "shader.hpp"
 #include "objs.hpp"
 
-void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods);
+void handle_input(GLFWwindow*, int, int, int, int);
+int load_uniform_float(GLuint, char*, float);
 
 int main(void)
 {
@@ -51,13 +52,16 @@ int main(void)
     
     GLuint quad_shader = create_shader("./src/shaders/vertex.shader",
                                        "./src/shaders/fragment.shader");
-
     glUseProgram(quad_shader);
-    
+
+    float initTime = glfwGetTime();
+
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(1.0f, 0.0f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        load_uniform_float(quad_shader, "time", initTime);
 
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
@@ -74,10 +78,21 @@ int main(void)
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        initTime = glfwGetTime();
     }
 
     glfwTerminate();
     return 0;
+}
+
+int load_uniform_float(GLuint shader, char* name, float value)
+{
+    glUseProgram(shader);
+    GLuint ULoc = glGetUniformLocation(shader, name);
+    glUniform1f(ULoc, value);
+
+    return ULoc;
 }
 
 void handle_input(GLFWwindow* window, int key, int scancode, int action, int mods)

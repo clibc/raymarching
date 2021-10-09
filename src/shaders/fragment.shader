@@ -8,6 +8,20 @@
 in  vec2 tCoord;
 out vec4 color;
 
+uniform float time;
+
+float smoothMin(float a, float b, float k){
+    float h = max(k - abs(a - b), 0) / k;
+    return min(a, b) - h*h*h*k * 1/6.0;
+}
+
+float sdEllipsoid( vec3 p, vec3 pos, vec3 r )
+{
+    float k0 = length((p-pos)/r);
+    float k1 = length((p-pos)/(r*r));
+    return k0*(k0-1.0)/k1;
+}
+
 float sphereSDF(vec3 point, vec3 spherePos)
 {
     return length(point - spherePos) - 0.5;
@@ -19,8 +33,10 @@ float planeSDF(vec3 point)
 }
 
 float sceneSDF(vec3 p) {
-    float m1 = min(sphereSDF(p, vec3(0.0, 1.0, 4.0)), planeSDF(p));
-    return m1;
+    float m1 = smoothMin(sphereSDF(p, vec3(cos(time) - 0.5, sin(time) +1, 4.0)), planeSDF(p), 0.4);
+    float m2 = smoothMin(m1, sphereSDF(p, vec3(cos(-time) - 0.5, sin(-time) +1, 4.0)), 0.4);
+    float m3 = smoothMin(m2, sdEllipsoid(p, vec3(1.,1.,4.), vec3(0.4, 0.9, 0.3)), 0.4);
+    return m3;
 }
 
 float GetSceneDistance(vec3 eye, vec3 dir)
@@ -50,7 +66,7 @@ vec3 GetNormal(vec3 p)
 
 float GetLight(vec3 p)
 {
-    vec3 lightPos = vec3(3.0, 5.0, 4.0);
+    vec3 lightPos = vec3(cos(time * 2.0), 5.0, sin(time * 3.) + 1.0);
     vec3 l = normalize(lightPos - p);
     vec3 n = GetNormal(p);
 
@@ -71,5 +87,5 @@ void main()
     float light = GetLight(eye + dir * dist);
 
     vec3 col = vec3(GetLight(eye + dist * dir));
-    color = vec4(col, 1.0f);
+    color = vec4(col, 1.0f) * vec4(0.5,0.7,0.0,1);
 }

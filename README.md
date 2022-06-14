@@ -1,4 +1,4 @@
 # Raymarching
-Making simple scene rendered using ray marching.
+Rendering simple scene using ray marching.
 
 ![](g.gif)
